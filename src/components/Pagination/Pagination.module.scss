@@ -1,0 +1,29 @@
+.wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagination {
+    display: flex;
+    gap: 4px;
+}
+
+.btn-prev,
+.btn-item,
+.btn-next {
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 24px;
+    width: 24px;
+    color: var(--text-color);
+
+    &:hover,
+    &.active {
+        background-color: var(--primary);
+        color: var(--black);
+    }
+}

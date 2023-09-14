@@ -1,0 +1,77 @@
+.page {
+    margin-top: var(--df-layout-header-h);
+    height: calc(100vh - var(--df-layout-header-h));
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    background-image: url("./../../assets/Banner/hinh1.jpg");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+.form-login,
+.form-register {
+    margin-right: 64px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+    display: block;
+    min-width: 340px;
+    max-width: 360px;
+    background-color: #fff;
+    padding: 20px 24px;
+    border-radius: 8px;
+    .form-row {
+        display: flex;
+        width: 100%;
+        + .form-row {
+            margin-top: 8px;
+        }
+        + .block {
+            padding-bottom: 8px;
+            border-bottom: 2px solid #ccc;
+        }
+    }
+    .form-title {
+        font-size: 2.4rem;
+        font-weight: 700;
+        color: var(--secondary);
+        margin-bottom: 24px;
+    }
+
+    .form-button {
+        width: 100%;
+    }
+
+    .form-footer {
+        margin-top: 16px;
+        padding: 8px 0 0;
+        span {
+            font-size: 14px;
+            font-weight: 400;
+            display: block;
+            text-align: center;
+            width: 100%;
+            color: #000;
+            a {
+                margin: 0 6px;
+                font-size: 16px;
+                color: var(--secondary);
+                font-weight: 700;
+            }
+            + span {
+                margin-top: 4px;
+            }
+        }
+    }
+}
+
+@media (max-width: 576px) {
+    .page {
+        justify-content: center;
+        background-image: none;
+    }
+    .form-login,
+    .form-register {
+        margin-right: 0;
+    }
+}

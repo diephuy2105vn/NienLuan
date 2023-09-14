@@ -1,0 +1,104 @@
+.wrapper {
+    padding: 16px 12px;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+
+    .title {
+        font-size: 2.4rem;
+        font-weight: 700;
+        color: var(--secondary);
+    }
+    .icon {
+        font-size: 3.2rem;
+        width: 36px;
+        height: 36px;
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+        color: var(--secondary);
+        &:hover {
+            background-color: var(--secondary);
+            color: var(--white);
+        }
+    }
+}
+
+.body {
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.card {
+    padding: 8px 2px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    .thumbnail {
+        height: 80px;
+        width: 80px;
+        img {
+            object-fit: contain;
+            height: 100%;
+            width: 100%;
+        }
+    }
+    .infor {
+        margin: 0 12px;
+        .link {
+            text-align: left;
+        }
+        .name {
+            margin: 0;
+            width: 100%;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+        .price {
+            display: block;
+            margin: 8px 0 4px 0;
+        }
+    }
+    .action {
+        .btn-delete {
+            height: 36px;
+            width: 36px;
+            color: var(--black);
+            font-size: 2rem;
+        }
+    }
+    + .card {
+        border-top: 1px solid #ccc;
+    }
+}
+
+.footer {
+    padding: 32px 0;
+    align-items: center;
+    display: flex;
+
+    .footer-select {
+        width: 50%;
+        justify-content: flex-start;
+        display: flex;
+        font-size: 1.6rem;
+        font-weight: 700;
+
+        input {
+            margin-left: 8px;
+        }
+    }
+
+    .footer-btn {
+        width: 50%;
+    }
+}

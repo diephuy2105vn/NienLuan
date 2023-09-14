@@ -1,0 +1,27 @@
+.wrapper {
+    display: block;
+    margin-top: 8px;
+}
+.title {
+    display: inline-block;
+    text-transform: uppercase;
+    color: var(--primary);
+    padding: 6px 0;
+    border-radius: 28px;
+    font-size: 2rem;
+    font-weight: 700;
+    user-select: none;
+    position: relative;
+    margin-bottom: 12px;
+    &::after {
+        content: "";
+        width: 100%;
+        min-width: 120px;
+        height: 3px;
+        border-radius: 3px;
+        background-color: var(--primary);
+        position: absolute;
+        top: 100%;
+        left: 0;
+    }
+}

@@ -1,0 +1,14 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+    border-radius: 4px;
+
+    .row {
+        justify-content: center;
+        align-items: center;
+    }
+    .col {
+        padding: 4px;
+    }
+}

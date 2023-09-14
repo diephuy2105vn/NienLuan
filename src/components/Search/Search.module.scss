@@ -1,0 +1,147 @@
+.search.sm {
+    width: 40px;
+    margin: 0;
+    margin-left: auto;
+    padding: 0;
+    background-color: transparent;
+    box-shadow: none;
+    .search-icon {
+        color: var(--text-color);
+        transform: none;
+        border: none;
+    }
+    input {
+        opacity: 0;
+        width: 0;
+    }
+}
+
+.search {
+    max-width: 400px;
+    margin: auto;
+}
+
+.search.sm.show {
+    width: 100%;
+    max-width: 100%;
+}
+
+.search,
+.search.sm.show {
+    transition: all 0.5s;
+    display: flex;
+    position: relative;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    padding: 4px 12px;
+    border-radius: 50px;
+    background-color: var(--white);
+    input {
+        opacity: 1;
+        transition: all 0.5s;
+        flex: 1;
+        padding: 8px;
+    }
+    .search-icon {
+        margin-left: auto;
+        transition: all 0.5s;
+        font-size: 28px;
+        padding: 4px;
+        transform: translateX(15%);
+        border-radius: 0;
+        border-left: 1px solid #ccc;
+        color: var(--black);
+    }
+
+    &::after {
+        content: "";
+        width: 100%;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        height: 16px;
+    }
+}
+
+.search-result {
+    position: absolute;
+    left: 0;
+    top: calc(100% + 8px);
+    width: 100%;
+    border-radius: 8px;
+    padding: 4px 0;
+    overflow: hidden;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+    background-color: #fff;
+    z-index: 999;
+}
+
+.search-card {
+    height: 80px;
+    display: flex;
+    padding: 4px;
+    .thumbnail {
+        margin-right: 4px;
+        height: 72px;
+        width: 72px;
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    }
+    .infor {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        .name {
+            color: var(--black);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-align: left;
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .price {
+            text-align: center;
+            width: auto;
+            font-size: 1.4rem;
+            font-weight: 600;
+            background-color: var(--primary);
+            padding: 1px 8px;
+            border-radius: 20px;
+            color: var(--white);
+        }
+    }
+    &:hover {
+        .name {
+            color: var(--secondary);
+        }
+    }
+    + .search-card {
+        border-top: 1px solid #ccc;
+    }
+}
+
+.search-spinner {
+    font-size: 1.6rem;
+    width: 40px;
+    height: 40px;
+    animation: spinner 1s linear infinite;
+    &:hover {
+        cursor: default;
+    }
+}
+
+@keyframes spinner {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

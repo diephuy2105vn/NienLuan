@@ -1,0 +1,140 @@
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
+@import "~bootstrap/scss/bootstrap";
+@import "normalize.css";
+:root {
+    --success: #0888ca;
+    --black: #000;
+    --white: #fff;
+    --df-layout-header-h: 80px;
+    --df-padding-x: 64px;
+    --secondary: #644734;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-family: "Quicksand", sans-serif;
+    font-size: 1.6rem;
+    font-weight: 500;
+    line-height: 1.2;
+    text-rendering: optimizeSpeed;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+button,
+input,
+select,
+textarea,
+[tabindex] {
+    font-family: "Quicksand", sans-serif;
+    font-size: 1.6rem;
+    font-weight: 500;
+    outline: none;
+    border: none;
+    resize: none;
+}
+
+a,
+button {
+    color: var(--text-color);
+    font-family: "Quicksand", sans-serif;
+    background-color: transparent;
+    user-select: none;
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+a {
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    line-height: 1.5;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.page {
+    padding: 0 var(--df-padding-x);
+    padding-top: calc(var(--df-layout-header-h) + 16px);
+    min-height: 100vh;
+}
+
+//Điều chỉnh boostrap
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: #ccc;
+    margin: auto 12px;
+    opacity: 0.2;
+    transition: all 0.3s linear;
+
+    &:hover {
+        opacity: 0.5;
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --df-padding-x: 24px;
+    }
+}
+
+@media (max-width: 576px) {
+    :root {
+        --df-padding-x: 8px;
+    }
+    .carousel-control-prev,
+    .carousel-control-next {
+        width: 28px;
+        height: 28px;
+        padding: 8px;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --primary: #bf1459;
+        --primary-rgb: 191, 20, 89;
+        --text-color: #000;
+        --text-color-hover: #fff;
+        --color-theme: #fff;
+        --bg-color: #fff;
+        --border-color: #000;
+        --border-color-rgb: 0, 0, 0;
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --primary: #f8a6be;
+        --primary-rgb: 248, 166, 190;
+        --text-color: #fff;
+        --text-color-hover: #000;
+        --color-theme: #000;
+        --bg-color: #202124;
+        --border-color: #fff;
+        --border-color-rgb: 255, 255, 255;
+    }
+}

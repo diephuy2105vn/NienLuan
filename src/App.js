@@ -1,25 +1,54 @@
-import logo from './logo.svg';
-import './App.css';
-
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import publicRoutes from "./routes/index";
+import DefaultLayout from "./components/layouts/DefaultLayout";
+import AuthUserContext from "./contexts/AuthUserContext";
+import { useDispatch, useSelector } from "react-redux";
+import { useCookies } from "react-cookie";
+import { useContext, useEffect } from "react";
+import { getCart } from "./reduxs/cart";
+import instance from "./axios";
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [cookies, setCookie] = useCookies("token");
+    const { _user, setUser } = useContext(AuthUserContext);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        if (cookies.accessToken) {
+            instance
+                .post("/auth/refresh")
+                .then((res) => {
+                    setUser(res.data.user);
+                    setCookie("accessToken", res.data.accessToken);
+                    dispatch(getCart(res.data.user._id));
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
+    }, []);
+
+    return (
+        <div className="App">
+            <BrowserRouter>
+                <Routes>
+                    {publicRoutes.map((route, index) => {
+                        const Layouts = DefaultLayout;
+                        const Page = route.element;
+                        return (
+                            <Route
+                                key={index}
+                                path={route.path}
+                                element={
+                                    <Layouts>
+                                        <Page />
+                                    </Layouts>
+                                }
+                            />
+                        );
+                    })}
+                </Routes>
+            </BrowserRouter>
+        </div>
+    );
 }
 
 export default App;
