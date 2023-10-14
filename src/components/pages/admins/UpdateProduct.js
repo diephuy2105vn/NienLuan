@@ -5,7 +5,7 @@ import Button from "../../Button";
 import useFormData from "../../../hooks/useFormData";
 import instance from "../../../axios";
 import classNames from "classnames/bind";
-import styles from "./StoreProduct.module.scss";
+import styles from "./admin.module.scss";
 import { useNavigate } from "react-router-dom";
 const cx = classNames.bind(styles);
 

@@ -5,7 +5,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
     top: 0;
     position: fixed;
     z-index: 888;
@@ -30,8 +30,6 @@
     display: flex;
     .avatar {
         margin-left: 8px;
-        height: 44px;
-        width: 44px;
         border-radius: 50%;
         img {
             width: 100%;
@@ -40,14 +38,15 @@
         }
     }
 
-    .icon-list,
-    .icon-login {
+    .icon-list {
         display: none;
     }
 }
 
 .nav .icon-list,
 .avatar {
+    height: 44px;
+    width: 44px;
     position: relative;
     &::after {
         position: absolute;
@@ -55,7 +54,7 @@
         bottom: 0;
         left: 0;
         transform: translateY(50%);
-        height: 12px;
+        height: 16px;
         width: 100%;
     }
     .list-menu,
@@ -64,7 +63,7 @@
         border-radius: 5px;
         box-shadow: 0 0 5px rgba(var(--border-color-rgb), 0.2);
         width: 180px;
-        top: 100%;
+        top: calc(100% + 4px);
         left: 100%;
         z-index: 999;
         transform: translateX(-100%);

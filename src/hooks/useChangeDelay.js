@@ -6,6 +6,7 @@ function useChangeDelay(value, timeout) {
         const timeoutId = setTimeout(() => {
             setNewValue(value);
         }, timeout);
+
         return () => {
             clearTimeout(timeoutId);
         };

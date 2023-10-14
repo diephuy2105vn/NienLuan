@@ -1,22 +1,55 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { AiOutlineClose } from "react-icons/ai";
 import { MdOutlineNavigateNext } from "react-icons/md";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import Icon from "../Icon";
 import styles from "./Cart.module.scss";
 import classNames from "classnames/bind";
-import Logo from "../../assets/1zsxz9y0q.png";
 import InputNumber from "../InputNumBer";
-import { useRef, useState, useContext } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Button from "../Button";
-import { deleteDetail } from "../../reduxs/cart";
+import { deleteDetail, changeQuantity } from "../../reduxs/cart";
+import useChangeDelay from "../../hooks/useChangeDelay";
+import { useNavigate } from "react-router-dom";
+
 const cx = classNames.bind(styles);
 
 export function CardInCart({ userId, item, checked, setChecked }) {
-    const [value, setValue] = useState(item.quantity);
+    const [isFirstLoad, setIsFirstLoad] = useState(true);
+    const [quantity, setQuantity] = useState(item.quantity);
+    const quantitySend = useChangeDelay(quantity, 500);
     const cardRef = useRef();
     const dispatch = useDispatch();
+    const handleDeleteItem = () => {
+        if (checked.includes(item._id)) {
+            setChecked((pre) => pre.filter((value) => value !== item._id));
+        }
+        const data = {
+            _id: item._id,
+            totalPrice: item.totalPrice,
+        };
+
+        dispatch(deleteDetail(userId, data));
+    };
+    useEffect(() => {
+        if (isFirstLoad) {
+            setIsFirstLoad(false);
+        } else {
+            const data = {
+                _id: item._id,
+                product: item.product,
+                quantity: quantitySend,
+            };
+
+            dispatch(changeQuantity(userId, data));
+        }
+    }, [quantitySend]);
+    useEffect(() => {
+        return () => setChecked([]);
+    }, []);
+
     return (
         <div className={cx("card")} ref={cardRef}>
             <div className={cx("select")}>
@@ -40,19 +73,18 @@ export function CardInCart({ userId, item, checked, setChecked }) {
                 <img src={item.product.urlImages[0]} alt="" />
             </div>
             <div className={cx("infor")}>
-                <Link className={cx("link")} to={`/product/${item.id}`}>
+                <Link
+                    className={cx("link")}
+                    to={`/product/${item.product._id}`}>
                     <h5 className={cx("name")}>{item.product.name}</h5>
                 </Link>
-                <span className={cx("price")}>{item.product.price}</span>
-                <InputNumber value={value} setValue={setValue} />
+                <span className={cx("price")}>
+                    {item.product.price?.toLocaleString("de-DE")} ₫
+                </span>
+                <InputNumber value={quantity} setValue={setQuantity} />
             </div>
             <div className={cx("action")}>
-                <Icon
-                    className={cx("btn-delete")}
-                    onClick={() => {
-                        dispatch(deleteDetail(userId, item));
-                        cardRef.current.remove();
-                    }}>
+                <Icon className={cx("btn-delete")} onClick={handleDeleteItem}>
                     <AiOutlineClose />
                 </Icon>
             </div>
@@ -61,10 +93,17 @@ export function CardInCart({ userId, item, checked, setChecked }) {
 }
 
 function Cart({ userId, openCart, setOpenCart }) {
-    const [checked, setChecked] = useState([1]);
+    const navigate = useNavigate();
+    const [checked, setChecked] = useState([]);
     const handleClose = () => setOpenCart(false);
     const cart = useSelector((state) => state.cart);
-
+    const handleBuyProduct = () => {
+        const order = cart.details.filter((detail) =>
+            checked.includes(detail._id)
+        );
+        localStorage.setItem("Order", JSON.stringify(order));
+        navigate("/payment");
+    };
     return (
         <Offcanvas
             className={cx("wrapper")}
@@ -119,7 +158,8 @@ function Cart({ userId, openCart, setOpenCart }) {
                     large
                     primary
                     className={cx("footer-btn")}
-                    disabled={checked.length === 0}>
+                    disabled={checked.length === 0}
+                    onClick={handleBuyProduct}>
                     Mua hàng
                 </Button>
             </div>

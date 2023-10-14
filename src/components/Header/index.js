@@ -2,12 +2,10 @@ import classNames from "classnames/bind";
 import styles from "./Header.module.scss";
 import Button from "../Button";
 import Logo from "../../assets/Logo.png";
-import { BsList, BsCart } from "react-icons/bs";
+import { BsList } from "react-icons/bs";
 import { useState, useLayoutEffect } from "react";
 import Icon from "../Icon";
-import { AiOutlineUser } from "react-icons/ai";
 import Search from "../Search";
-import { Link } from "react-router-dom";
 import Cart from "../Cart";
 import { useContext } from "react";
 import AuthUserContext from "../../contexts/AuthUserContext";
@@ -42,6 +40,13 @@ function Header() {
                 setWindowSmall(false);
             }
         }
+        if (window.innerWidth < 576) {
+            setShowInput(false);
+            setWindowSmall(true);
+        } else {
+            setShowInput(true);
+            setWindowSmall(false);
+        }
 
         window.addEventListener("resize", handleResizeWindow);
         return () => {
@@ -70,19 +75,21 @@ function Header() {
                             <ul className={cx("list-menu")}>
                                 <li>
                                     <Button className={cx("link")} to="/">
-                                        Home
+                                        Trang Chủ
                                     </Button>
                                 </li>
                                 <li>
                                     <Button
                                         className={cx("link")}
                                         to="/product">
-                                        Product
+                                        Sản Phẩm
                                     </Button>
                                 </li>
                                 <li>
-                                    <Button className={cx("link")} to="/about">
-                                        About Us
+                                    <Button
+                                        className={cx("link")}
+                                        to="/promotion">
+                                        Giới thiệu
                                     </Button>
                                 </li>
                                 {!user && (
@@ -91,8 +98,15 @@ function Header() {
                                             <Button
                                                 className={cx("link")}
                                                 primary
-                                                to="/about">
+                                                to="/login">
                                                 Đăng nhập
+                                            </Button>
+                                        </li>
+                                        <li>
+                                            <Button
+                                                className={cx("link")}
+                                                to="/register">
+                                                Đăng ký
                                             </Button>
                                         </li>
                                     </>
@@ -103,7 +117,7 @@ function Header() {
                         <ul className={cx("list-link")}>
                             <li className={cx("wrapper-link")}>
                                 <Button small className={cx("link")} to="/">
-                                    Home
+                                    Trang Chủ
                                 </Button>
                             </li>
                             <li className={cx("wrapper-link")}>
@@ -111,15 +125,15 @@ function Header() {
                                     small
                                     className={cx("link")}
                                     to="/product">
-                                    Product
+                                    Sản Phẩm
                                 </Button>
                             </li>
                             <li className={cx("wrapper-link")}>
                                 <Button
                                     small
                                     className={cx("link")}
-                                    to="/about">
-                                    About Us
+                                    to="/promotion">
+                                    Giới thiệu
                                 </Button>
                             </li>
                             {!user && (
@@ -161,6 +175,31 @@ function Header() {
                                             Giỏ hàng
                                         </Button>
                                     </li>
+                                    {user.role > 2 && (
+                                        <>
+                                            <li>
+                                                <Button
+                                                    className={cx("link")}
+                                                    to="/admin/product">
+                                                    Quản lý sản phẩm
+                                                </Button>
+                                            </li>
+                                            <li>
+                                                <Button
+                                                    className={cx("link")}
+                                                    to="/admin/order">
+                                                    Quản lý đơn hàng
+                                                </Button>
+                                            </li>
+                                            <li>
+                                                <Button
+                                                    className={cx("link")}
+                                                    to="/admin/account">
+                                                    Quản lý tài khoản
+                                                </Button>
+                                            </li>
+                                        </>
+                                    )}
                                     <li>
                                         <Button
                                             onClick={handleLogout}
@@ -174,11 +213,14 @@ function Header() {
                     </div>
                 )}
             </div>
-            <Cart
-                userId={user?._id || null}
-                openCart={openCart}
-                setOpenCart={setOpenCart}
-            />
+
+            {user && (
+                <Cart
+                    userId={user?._id || null}
+                    openCart={openCart}
+                    setOpenCart={setOpenCart}
+                />
+            )}
         </>
     );
 }

@@ -2,8 +2,7 @@
     max-height: 240px;
     background-color: #fff;
     padding: 8px 12px;
-    border-radius: 4px;
-    box-shadow: 0 0 3px rgba(var(--border-color-rgb), 0.3);
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
 }
 
 .thumbnail {
@@ -40,6 +39,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: 8px;
     span {
         font-size: 14px;
         font-weight: 700;
@@ -47,20 +47,5 @@
         background-color: var(--primary);
         padding: 2px 8px;
         border-radius: 20px;
-    }
-
-    .icon {
-        font-size: 20px;
-        width: 36px;
-        height: 36px;
-        background-color: var(--secondary);
-        border: 1px solid transparent;
-        color: var(--white);
-        padding: 4px;
-        &:hover {
-            background-color: var(--white);
-            border: 1px solid var(--secondary);
-            color: var(--secondary);
-        }
     }
 }

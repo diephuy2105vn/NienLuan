@@ -41,12 +41,12 @@ export const getCart = (id) => (dispatch) => {
     );
 };
 
-export const addDetail = (id, detail) => (dispatch) => {
+export const addDetail = (id, data) => (dispatch) => {
     return dispatch(
         apiCallBegan({
             url: `/${id}`,
             method: "POST",
-            data: detail,
+            data: data,
             onStart: cartRequested.type,
             onSuccess: cartReceived.type,
             onError: cartRequestFailed.type,
@@ -54,12 +54,25 @@ export const addDetail = (id, detail) => (dispatch) => {
     );
 };
 
-export const deleteDetail = (id, detail) => (dispatch) => {
+export const deleteDetail = (id, data) => (dispatch) => {
     return dispatch(
         apiCallBegan({
             url: `/${id}`,
             method: "DELETE",
-            data: detail,
+            data: data,
+            onStart: cartRequested.type,
+            onSuccess: cartReceived.type,
+            onError: cartRequestFailed.type,
+        })
+    );
+};
+
+export const changeQuantity = (id, data) => (dispatch) => {
+    return dispatch(
+        apiCallBegan({
+            url: `/${id}`,
+            method: "PUT",
+            data: data,
             onStart: cartRequested.type,
             onSuccess: cartReceived.type,
             onError: cartRequestFailed.type,

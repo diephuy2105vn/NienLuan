@@ -2,15 +2,20 @@
 
 import Home from "../components/pages/Home";
 import Product from "../components/pages/Product";
-import About from "../components/pages/About";
+import Promotion from "../components/pages/Promotion";
 import Payment from "../components/pages/Payment";
 import ProductOne from "../components/pages/ProductOne";
 import Login from "../components/pages/Login";
 import Register from "../components/pages/Register";
+import Profile from "../components/pages/Profile";
 import CreateProduct from "../components/pages/admins/CreateProduct";
 import UpdateProduct from "../components/pages/admins/UpdateProduct";
 import StoreProduct from "../components/pages/admins/StoreProduct";
-const publicRoutes = [
+import StoreOrder from "../components/pages/admins/StoreOrder";
+import OrderOneAdmin from "../components/pages/admins/OrderOneAdmin";
+import OrderOne from "../components/pages/OrderOne";
+import StoreAccount from "../components/pages/admins/StoreAccount";
+export const publicRoutes = [
     {
         path: "/",
         element: Home,
@@ -24,8 +29,8 @@ const publicRoutes = [
         element: ProductOne,
     },
     {
-        path: "/about",
-        element: About,
+        path: "/promotion",
+        element: Promotion,
     },
     {
         path: "/payment",
@@ -39,6 +44,22 @@ const publicRoutes = [
         path: "/register",
         element: Register,
     },
+];
+
+export const privateRoutes = [
+    ...publicRoutes,
+    {
+        path: "/profile",
+        element: Profile,
+    },
+    {
+        path: "/profile/order/:id",
+        element: OrderOne,
+    },
+];
+
+export const adminRoutes = [
+    ...privateRoutes,
     {
         path: "/admin/product/create",
         element: CreateProduct,
@@ -51,6 +72,16 @@ const publicRoutes = [
         path: "/admin/product",
         element: StoreProduct,
     },
+    {
+        path: "/admin/order",
+        element: StoreOrder,
+    },
+    {
+        path: "/admin/order/:id",
+        element: OrderOneAdmin,
+    },
+    {
+        path: "/admin/account",
+        element: StoreAccount,
+    },
 ];
-
-export default publicRoutes;

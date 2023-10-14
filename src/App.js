@@ -1,15 +1,17 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import publicRoutes from "./routes/index";
+import { publicRoutes, privateRoutes, adminRoutes } from "./routes/index";
 import DefaultLayout from "./components/layouts/DefaultLayout";
 import AuthUserContext from "./contexts/AuthUserContext";
 import { useDispatch, useSelector } from "react-redux";
 import { useCookies } from "react-cookie";
-import { useContext, useEffect } from "react";
+import { useContext, useLayoutEffect, useEffect, useState } from "react";
 import { getCart } from "./reduxs/cart";
+import { useNavigate, useLocation } from "react-router-dom";
 import instance from "./axios";
 function App() {
+    const [routes, setRoutes] = useState(publicRoutes);
     const [cookies, setCookie] = useCookies("token");
-    const { _user, setUser } = useContext(AuthUserContext);
+    const { user, setUser } = useContext(AuthUserContext);
     const dispatch = useDispatch();
     useEffect(() => {
         if (cookies.accessToken) {
@@ -18,7 +20,6 @@ function App() {
                 .then((res) => {
                     setUser(res.data.user);
                     setCookie("accessToken", res.data.accessToken);
-                    dispatch(getCart(res.data.user._id));
                 })
                 .catch((err) => {
                     console.log(err);
@@ -26,11 +27,20 @@ function App() {
         }
     }, []);
 
+    useEffect(() => {
+        if (user) {
+            user.role == 1 ? setRoutes(privateRoutes) : setRoutes(adminRoutes);
+            dispatch(getCart(user._id));
+        } else {
+            setRoutes(publicRoutes);
+        }
+    }, [user]);
+
     return (
         <div className="App">
             <BrowserRouter>
                 <Routes>
-                    {publicRoutes.map((route, index) => {
+                    {routes.map((route, index) => {
                         const Layouts = DefaultLayout;
                         const Page = route.element;
                         return (

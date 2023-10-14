@@ -28,7 +28,7 @@
 
 .search,
 .search.sm.show {
-    transition: all 0.5s;
+    transition: all 0.3s;
     display: flex;
     position: relative;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
@@ -131,6 +131,8 @@
     font-size: 1.6rem;
     width: 40px;
     height: 40px;
+    padding: 0;
+    color: var(--black);
     animation: spinner 1s linear infinite;
     &:hover {
         cursor: default;

@@ -3,7 +3,7 @@ import classNames from "classnames/bind";
 import { useEffect, useRef, useState } from "react";
 import styles from "./Search.module.scss";
 import { BiSearchAlt2 } from "react-icons/bi";
-import { ImSpinner6 } from "react-icons/im";
+import { FaSpinner } from "react-icons/fa";
 import Icon from "../Icon";
 import { Link } from "react-router-dom";
 import instance from "../../axios";
@@ -104,7 +104,7 @@ function Search({ showInput, setShowInput, windowSmall }) {
                     />
                     {loadingSearch && (
                         <Icon className={cx("search-spinner")}>
-                            <ImSpinner6 />
+                            <FaSpinner />
                         </Icon>
                     )}
                 </>
@@ -122,6 +122,7 @@ function Search({ showInput, setShowInput, windowSmall }) {
                             onClick={() => {
                                 setValueSearch("");
                                 setSearchResult("");
+                                windowSmall && setShowInput(false);
                             }}>
                             <div className={cx("thumbnail")}>
                                 <img src={item.urlImages[0]} alt="" />

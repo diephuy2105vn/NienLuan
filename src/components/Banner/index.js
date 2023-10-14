@@ -2,9 +2,11 @@ import classNames from "classnames/bind";
 import styles from "./Banner.module.scss";
 import Carousel from "react-bootstrap/Carousel";
 import { useState } from "react";
+
 import Banner1 from "../../assets/Banner/hinh1.jpg";
 import Banner2 from "../../assets/Banner/hinh2.jpg";
 import Banner3 from "../../assets/Banner/hinh3.jpg";
+import Banner4 from "../../assets/Banner/hinh4.jpg";
 import Button from "../Button";
 import { Link } from "react-router-dom";
 const items = [
@@ -20,6 +22,11 @@ const items = [
     },
     {
         image: Banner3,
+
+        to: "",
+    },
+    {
+        image: Banner4,
 
         to: "",
     },

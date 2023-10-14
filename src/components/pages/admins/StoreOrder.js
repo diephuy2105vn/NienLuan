@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import classNames from "classnames/bind";
 import Pagination from "../../Pagination";
 import instance from "../../../axios";
@@ -7,33 +7,48 @@ import styles from "./admin.module.scss";
 import Slidebar from "../../Slidebar";
 import Button from "../../Button";
 import Title from "../../Title";
-import { slidebarProduct } from "../../../assets/Slidebar";
+import { slidebarOrder } from "../../../assets/Slidebar";
+import useDate from "../../../hooks/useDate";
 
 const cx = classNames.bind(styles);
 
-function StoreProduct() {
+function StoreOrder() {
+    const { toDateString } = useDate();
     const itemsRef = useRef([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPage, setTotalPage] = useState(0);
-    const [product, setProduct] = useState([]);
+    const [orders, setOrders] = useState([]);
     const [checkedSlidebar, setCheckedSlidebar] = useState({
         sort: "",
-        types: [],
-        needs: [],
+        status: "",
     });
-
-    const [checkedProduct, setCheckedProduct] = useState([]);
+    const [checkedOrder, setCheckedOrder] = useState([]);
     const [openModalDelete, setOpenModalDelete] = useState(false);
-    const handleDeleteProduct = () => {
+    useEffect(() => {
         instance
-            .delete("/product/delete", {
-                data: { ids: checkedProduct },
+            .get("/api/order", {
+                params: {
+                    sort: checkedSlidebar.sort,
+                    status: checkedSlidebar.status,
+                },
             })
+            .then((res) => {
+                setCurrentPage(1);
+                setTotalPage(res.data.totalPage);
+                setOrders(res.data.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, [currentPage, checkedSlidebar]);
+    const handleDeleteOrder = () => {
+        console.log(checkedOrder);
+        instance
+            .delete("/order/delete", { data: { ids: checkedOrder } })
             .then((res) => {
                 itemsRef.current.forEach(
                     (item) =>
-                        checkedProduct.includes(item.dataset.id) &&
-                        item.remove()
+                        checkedOrder.includes(item.dataset.id) && item.remove()
                 );
                 setOpenModalDelete(false);
             })
@@ -41,29 +56,13 @@ function StoreProduct() {
                 console.log(err);
             });
     };
-
-    useEffect(() => {
-        instance
-            .get(`/api/product`, {
-                params: {
-                    page: currentPage,
-                    sort: checkedSlidebar.sort,
-                    types: checkedSlidebar.types,
-                    needs: checkedSlidebar.needs,
-                },
-            })
-            .then((res) => {
-                setTotalPage(res.data.totalPage);
-                setProduct(res.data.data);
-            });
-    }, [currentPage, checkedSlidebar]);
     return (
         <>
             <div className="page">
-                <Title>Store Product</Title>
+                <Title>Store Order</Title>
                 <div className="mb-2">
                     <Slidebar
-                        items={slidebarProduct}
+                        items={slidebarOrder}
                         slideSmall={true}
                         checked={checkedSlidebar}
                         setChecked={setCheckedSlidebar}
@@ -74,67 +73,67 @@ function StoreProduct() {
                         <tr>
                             <th className="col-1"></th>
                             <th className="col-1 text-center">ID</th>
-                            <th className="col-6 text-center">Tên sản phẩm</th>
-                            <th className="col-2 text-center">Giá</th>
-                            <th className="col-2 text-center">Số lượng</th>
+                            <th className="col-4 text-center">
+                                Tên khách hàng
+                            </th>
+                            <th className="col-2 text-center">Số điện thoại</th>
+                            <th className="col-2 text-center">Ngày đặt</th>
+                            <th className="col-2 text-center">Chi tiết</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {product.map((item, index) => (
+                        {orders.map((order, index) => (
                             <tr
                                 key={index}
-                                data-id={item._id}
+                                data-id={order._id}
                                 ref={(e) => (itemsRef.current[index] = e)}>
                                 <td className="text-center">
                                     <input
-                                        checked={checkedProduct.includes(
-                                            item._id
+                                        checked={checkedOrder.includes(
+                                            order._id
                                         )}
                                         onChange={(e) =>
-                                            checkedProduct.includes(item._id)
-                                                ? setCheckedProduct((pre) =>
+                                            checkedOrder.includes(order._id)
+                                                ? setCheckedOrder((pre) =>
                                                       pre.filter(
                                                           (item) =>
                                                               item !==
                                                               e.target.value
                                                       )
                                                   )
-                                                : setCheckedProduct((pre) => [
+                                                : setCheckedOrder((pre) => [
                                                       ...pre,
                                                       e.target.value,
                                                   ])
                                         }
-                                        value={item._id}
+                                        value={order._id}
                                         type="checkbox"
                                     />
                                 </td>
-                                <td className="text-center">{index + 1}</td>
-                                <td>
-                                    <Link
-                                        to={`/admin/product/${item._id}`}
-                                        className={cx("link")}>
-                                        {item.name}
-                                    </Link>
+                                <td>{index + 1}</td>
+                                <td className="text-center">{order.name}</td>
+                                <td className="text-center">{order.phone}</td>
+                                <td className="text-center">
+                                    {toDateString(order.dateCreate)}
                                 </td>
                                 <td className="text-center">
-                                    {item.price.toLocaleString("de-DE")} ₫
+                                    <Link
+                                        to={`/admin/order/${order._id}`}
+                                        className={"text-center " + cx("link")}>
+                                        Xem chi tiết
+                                    </Link>
                                 </td>
-                                <td className="text-center">{item.quantity}</td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
                 <div className={cx("action")}>
-                    <Button primary small to="/admin/product/create">
-                        Thêm sản phẩm
-                    </Button>
-
                     <Button
                         cancel
                         small
-                        disabled={checkedProduct.length <= 0}
+                        disabled={checkedOrder.length <= 0}
                         onClick={(e) => setOpenModalDelete(true)}>
-                        Xóa sản phẩm
+                        Xóa Đơn Đặt Hàng
                     </Button>
                 </div>
                 <Pagination
@@ -146,19 +145,14 @@ function StoreProduct() {
             {openModalDelete && (
                 <div className={cx("modal-wrapper")}>
                     <div className={cx("modal-content")}>
-                        <h3 className={cx("title")}>Xác nhận xóa sản phẩm</h3>
+                        <h3 className={cx("title")}>Xác nhận xóa đơn hàng</h3>
                         <div className={cx("content")}>
                             <span>
                                 Hành động này không thể khôi phục, xác nhận xóa?
                             </span>
                         </div>
                         <div className={cx("action")}>
-                            <Button
-                                cancel
-                                small
-                                onClick={() => {
-                                    handleDeleteProduct();
-                                }}>
+                            <Button cancel small onClick={handleDeleteOrder}>
                                 Xác nhận
                             </Button>
                             <Button
@@ -175,4 +169,4 @@ function StoreProduct() {
     );
 }
 
-export default StoreProduct;
+export default StoreOrder;

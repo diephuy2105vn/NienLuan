@@ -5,12 +5,13 @@ import Title from "../Title";
 import ContainerProduct from "../ContainerProduct";
 import SliderImage from "../SliderImage";
 import ListType from "../ListType";
-import { BsKeyboard, BsMouse, BsLaptop } from "react-icons/bs";
+import { BsKeyboard, BsMouse, BsLaptop, BsCpu } from "react-icons/bs";
 import { CgScreen } from "react-icons/cg";
-import { PiComputerTowerBold } from "react-icons/pi";
-import Banner1 from "../../assets/Banner/hinh1.jpg";
-import Banner2 from "../../assets/Banner/hinh2.jpg";
-import Banner3 from "../../assets/Banner/hinh3.jpg";
+
+import Banner5 from "../../assets/Banner/hinh5.jpg";
+import Banner6 from "../../assets/Banner/hinh6.jpg";
+import Banner7 from "../../assets/Banner/hinh7.jpg";
+import Banner8 from "../../assets/Banner/hinh8.jpg";
 import instance from "../../axios";
 
 const types = [
@@ -31,7 +32,7 @@ const types = [
     },
     {
         title: "CPU",
-        icon: <PiComputerTowerBold />,
+        icon: <BsCpu />,
         value: "CPU",
     },
     {
@@ -42,30 +43,37 @@ const types = [
 ];
 const items = [
     {
-        image: Banner1,
-        to: "",
+        image: Banner5,
+        to: "/product?types=CPU",
+    },
+    {
+        image: Banner6,
+        to: "/product?types=Chuột",
+    },
+    {
+        image: Banner7,
+        to: "/product?types=Màn hình",
+    },
+    {
+        image: Banner8,
+        to: "/product?types=Bàn phím",
+    },
+    {
+        image: Banner5,
+        to: "/product?types=CPU",
     },
 
     {
-        image: Banner2,
-        to: "",
+        image: Banner6,
+        to: "/product?types=Chuột",
     },
     {
-        image: Banner3,
-        to: "",
+        image: Banner7,
+        to: "/product?types=Màn hình",
     },
     {
-        image: Banner1,
-        to: "",
-    },
-
-    {
-        image: Banner2,
-        to: "",
-    },
-    {
-        image: Banner3,
-        to: "",
+        image: Banner8,
+        to: "/product?types=Bàn phím",
     },
 ];
 
@@ -76,9 +84,15 @@ const Home = () => {
     const [productTrends, setProductTrends] = useState([]);
     const [productTypes, setProductTypes] = useState([]);
     useEffect(() => {
-        instance.get("/api/product", {}).then((res) => {
-            setProductTrends(res.data.data);
-        });
+        instance
+            .get("/api/product", {
+                params: {
+                    size: 10,
+                },
+            })
+            .then((res) => {
+                setProductTrends(res.data.data);
+            });
     }, []);
 
     useEffect(() => {
@@ -86,6 +100,7 @@ const Home = () => {
             .get("/api/product", {
                 params: {
                     types: type,
+                    size: 10,
                 },
             })
             .then((res) => {
@@ -101,12 +116,12 @@ const Home = () => {
                     items={productTrends}
                     sizeS={2}
                     sizeM={3}
-                    sizeL={4}
+                    sizeL={5}
                 />
             </div>
             <SliderImage
                 items={items}
-                size={3}
+                size={4}
                 currentImage={currentImage}
                 setCurrentImage={setCurrentImage}
             />
@@ -116,7 +131,7 @@ const Home = () => {
                     items={productTypes}
                     sizeS={2}
                     sizeM={3}
-                    sizeL={4}
+                    sizeL={5}
                 />
             </div>
         </div>

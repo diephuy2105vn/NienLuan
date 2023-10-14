@@ -38,9 +38,11 @@
             li {
                 display: block;
                 padding: 6px 10px;
+                white-space: nowrap;
                 min-width: 120px;
                 font-size: 1.4rem;
                 text-align: left;
+                max-width: 200px;
                 input[type="checkbox"],
                 input[type="radio"] {
                     margin-right: 8px;

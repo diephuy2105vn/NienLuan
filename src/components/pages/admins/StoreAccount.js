@@ -4,35 +4,30 @@ import classNames from "classnames/bind";
 import Pagination from "../../Pagination";
 import instance from "../../../axios";
 import styles from "./admin.module.scss";
-import Slidebar from "../../Slidebar";
 import Button from "../../Button";
 import Title from "../../Title";
-import { slidebarProduct } from "../../../assets/Slidebar";
 
 const cx = classNames.bind(styles);
 
-function StoreProduct() {
+function StoreAccount() {
     const itemsRef = useRef([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalPage, setTotalPage] = useState(0);
-    const [product, setProduct] = useState([]);
-    const [checkedSlidebar, setCheckedSlidebar] = useState({
-        sort: "",
-        types: [],
-        needs: [],
-    });
+    // const [totalPage, setTotalPage] = useState(0);
+    const [account, setAccount] = useState([]);
 
-    const [checkedProduct, setCheckedProduct] = useState([]);
+    const [checkedAccount, setCheckedAccount] = useState([]);
     const [openModalDelete, setOpenModalDelete] = useState(false);
-    const handleDeleteProduct = () => {
+    const handleDeleteAccount = () => {
+        console.log(checkedAccount);
         instance
-            .delete("/product/delete", {
-                data: { ids: checkedProduct },
+            .delete("/account/delete", {
+                data: { ids: checkedAccount },
             })
             .then((res) => {
+                console.log(res);
                 itemsRef.current.forEach(
                     (item) =>
-                        checkedProduct.includes(item.dataset.id) &&
+                        checkedAccount.includes(item.dataset.id) &&
                         item.remove()
                 );
                 setOpenModalDelete(false);
@@ -43,63 +38,47 @@ function StoreProduct() {
     };
 
     useEffect(() => {
-        instance
-            .get(`/api/product`, {
-                params: {
-                    page: currentPage,
-                    sort: checkedSlidebar.sort,
-                    types: checkedSlidebar.types,
-                    needs: checkedSlidebar.needs,
-                },
-            })
-            .then((res) => {
-                setTotalPage(res.data.totalPage);
-                setProduct(res.data.data);
-            });
-    }, [currentPage, checkedSlidebar]);
+        instance.get(`/api/account`).then((res) => {
+            // setTotalPage(res.data.totalPage);
+            setAccount(res.data.data);
+        });
+    }, [currentPage]);
     return (
         <>
             <div className="page">
-                <Title>Store Product</Title>
-                <div className="mb-2">
-                    <Slidebar
-                        items={slidebarProduct}
-                        slideSmall={true}
-                        checked={checkedSlidebar}
-                        setChecked={setCheckedSlidebar}
-                    />
-                </div>
+                <Title>Store Account</Title>
+
                 <table className="table table-lights table-bordered">
                     <thead className="table-primary">
                         <tr>
                             <th className="col-1"></th>
-                            <th className="col-1 text-center">ID</th>
-                            <th className="col-6 text-center">Tên sản phẩm</th>
-                            <th className="col-2 text-center">Giá</th>
-                            <th className="col-2 text-center">Số lượng</th>
+                            <th className="col-1 text-center">STT</th>
+                            <th className="col-6 text-center">Tên tài khoản</th>
+                            <th className="col-2 text-center">Phương thức</th>
+                            <th className="col-2 text-center">Quyền</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {product.map((item, index) => (
+                        {account.map((item, index) => (
                             <tr
                                 key={index}
                                 data-id={item._id}
                                 ref={(e) => (itemsRef.current[index] = e)}>
                                 <td className="text-center">
                                     <input
-                                        checked={checkedProduct.includes(
+                                        checked={checkedAccount.includes(
                                             item._id
                                         )}
                                         onChange={(e) =>
-                                            checkedProduct.includes(item._id)
-                                                ? setCheckedProduct((pre) =>
+                                            checkedAccount.includes(item._id)
+                                                ? setCheckedAccount((pre) =>
                                                       pre.filter(
                                                           (item) =>
                                                               item !==
                                                               e.target.value
                                                       )
                                                   )
-                                                : setCheckedProduct((pre) => [
+                                                : setCheckedAccount((pre) => [
                                                       ...pre,
                                                       e.target.value,
                                                   ])
@@ -111,42 +90,46 @@ function StoreProduct() {
                                 <td className="text-center">{index + 1}</td>
                                 <td>
                                     <Link
-                                        to={`/admin/product/${item._id}`}
+                                        to={`/admin/account/${item._id}`}
                                         className={cx("link")}>
-                                        {item.name}
+                                        {item.username}
                                     </Link>
                                 </td>
+                                <td className="text-center">{item.provider}</td>
                                 <td className="text-center">
-                                    {item.price.toLocaleString("de-DE")} ₫
+                                    {item.role >= 3
+                                        ? "Quản trị"
+                                        : item.role == 2
+                                        ? "Nhân viên"
+                                        : "Khách hàng"}
                                 </td>
-                                <td className="text-center">{item.quantity}</td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
                 <div className={cx("action")}>
-                    <Button primary small to="/admin/product/create">
-                        Thêm sản phẩm
+                    <Button primary small to="/admin/account/create">
+                        Thêm tài khoản
                     </Button>
 
                     <Button
                         cancel
                         small
-                        disabled={checkedProduct.length <= 0}
+                        disabled={checkedAccount.length <= 0}
                         onClick={(e) => setOpenModalDelete(true)}>
-                        Xóa sản phẩm
+                        Xóa tài khoản
                     </Button>
                 </div>
-                <Pagination
+                {/* <Pagination
                     totalPage={totalPage}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
-                />
+                /> */}
             </div>
             {openModalDelete && (
                 <div className={cx("modal-wrapper")}>
                     <div className={cx("modal-content")}>
-                        <h3 className={cx("title")}>Xác nhận xóa sản phẩm</h3>
+                        <h3 className={cx("title")}>Xác nhận xóa tài khoản</h3>
                         <div className={cx("content")}>
                             <span>
                                 Hành động này không thể khôi phục, xác nhận xóa?
@@ -157,7 +140,7 @@ function StoreProduct() {
                                 cancel
                                 small
                                 onClick={() => {
-                                    handleDeleteProduct();
+                                    handleDeleteAccount();
                                 }}>
                                 Xác nhận
                             </Button>
@@ -175,4 +158,4 @@ function StoreProduct() {
     );
 }
 
-export default StoreProduct;
+export default StoreAccount;

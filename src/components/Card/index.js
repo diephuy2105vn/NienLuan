@@ -1,7 +1,6 @@
 import classNames from "classnames/bind";
 import styles from "./Card.module.scss";
-import { BsCart2 } from "react-icons/bs";
-import Icon from "../Icon";
+
 import { Link } from "react-router-dom";
 
 const cx = classNames.bind(styles);
@@ -18,9 +17,6 @@ function Card({ item }) {
                 </Link>
                 <div className={cx("price")}>
                     <span>{item.price.toLocaleString("de-DE")} ₫</span>
-                    <Icon className={cx("icon")}>
-                        <BsCart2 />
-                    </Icon>
                 </div>
             </div>
         </div>

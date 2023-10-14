@@ -43,6 +43,12 @@ textarea,
     resize: none;
 }
 
+img {
+    user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+}
+
 a,
 button {
     color: var(--text-color);

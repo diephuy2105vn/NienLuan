@@ -3,6 +3,9 @@ import { useState } from "react";
 import instance from "../../../axios";
 import Button from "../../Button";
 import useFormData from "../../../hooks/useFormData";
+
+import { useNavigate } from "react-router-dom";
+
 function CreateProduct() {
     const [data, setData] = useState({
         name: "",
@@ -15,7 +18,7 @@ function CreateProduct() {
         images: [],
     });
     const { createFormData } = useFormData();
-
+    const navigate = useNavigate();
     function handleSubmitForm(e) {
         e.preventDefault();
         if (data.urlImages.length <= 0) {
@@ -204,7 +207,13 @@ function CreateProduct() {
                         </Button>
                     </div>
                     <div className="col-6 col-sm-3 pe-0">
-                        <Button cancel className="w-100">
+                        <Button
+                            cancel
+                            className="w-100"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                navigate("/admin/product");
+                            }}>
                             Huỷ bỏ
                         </Button>
                     </div>

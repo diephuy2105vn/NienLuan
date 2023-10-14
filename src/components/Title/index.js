@@ -3,9 +3,9 @@ import styles from "./Title.module.scss";
 
 const cx = classNames.bind(styles);
 
-function Title({ large = false, small = false, children }) {
+function Title({ large = false, small = false, className, children }) {
     return (
-        <div className={cx("wrapper")}>
+        <div className={cx("wrapper", { [className]: className })}>
             <h2 className={cx("title", { large, small })}>{children}</h2>
         </div>
     );

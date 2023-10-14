@@ -9,7 +9,7 @@ const cx = classNames.bind(styles);
 function ListType({ items, title = "Danh sách sản phẩm", setTitle }) {
     return (
         <div className={cx("wrapper")}>
-            <Title className={cx("title")}>{title}</Title>
+            <Title>{title}</Title>
             <div className={cx("list")}>
                 {items.map((item, index) => (
                     <button

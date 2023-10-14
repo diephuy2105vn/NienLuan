@@ -16,6 +16,7 @@ const middleware =
                 url,
                 method,
                 data: { data: data },
+                withCredentials: true,
             });
             console.log(response.data);
             dispatch(actions.apiCallSucess(response.data));

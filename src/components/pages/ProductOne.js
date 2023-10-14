@@ -9,10 +9,11 @@ import InputNumber from "../InputNumBer";
 import AuthUserContext from "../../contexts/AuthUserContext";
 import { useDispatch, useSelector } from "react-redux";
 import { addDetail } from "../../reduxs/cart";
-
+import { useNavigate } from "react-router-dom";
 const cx = classNames.bind(styles);
 
 function ProductOne() {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart);
     const { user } = useContext(AuthUserContext);
@@ -21,10 +22,23 @@ function ProductOne() {
     const [quantity, setQuantity] = useState(1);
     const { id } = useParams();
     useEffect(() => {
+        setQuantity(1);
         instance(`/api/product/${id}`).then((res) => {
             setProduct(res.data.data);
         });
     }, [id]);
+
+    const handleBuyProduct = () => {
+        const order = [
+            {
+                product: product,
+                quantity: quantity,
+            },
+        ];
+        localStorage.setItem("Order", JSON.stringify(order));
+        navigate("/payment");
+    };
+
     return (
         <div className="page">
             <div className="row">
@@ -69,40 +83,29 @@ function ProductOne() {
                             <p>Số lượng còn lại: {product.quantity} sản phẩm</p>
                         </div>
                         <div className={cx("action")}>
-                            <Button large primary>
+                            <Button large primary onClick={handleBuyProduct}>
                                 Mua Hàng
                             </Button>
-                            <Button
-                                large
-                                outline
-                                onClick={() =>
-                                    dispatch(
-                                        addDetail(user._id, {
-                                            product: product,
-                                            quantity: quantity,
-                                        })
-                                    )
-                                }>
-                                Thêm Giỏ Hàng
-                            </Button>
+                            {user && (
+                                <Button
+                                    large
+                                    outline
+                                    onClick={() =>
+                                        dispatch(
+                                            addDetail(user._id, {
+                                                product: product,
+                                                quantity: quantity,
+                                            })
+                                        )
+                                    }>
+                                    Thêm Giỏ Hàng
+                                </Button>
+                            )}
                         </div>
-                        <ul className={cx("description")}>
-                            Mô tả sản phẩm
-                            <li>
-                                <span>Màn hình:</span> 14.0 inch, 1920 x 1080
-                                Pixels, IPS, 60 Hz, 250 nits, LCD
-                            </li>
-                            <li>
-                                <span>CPU:</span> AMD, Ryzen 5, 5625U
-                            </li>
-                            <li>
-                                <span>RAM:</span> 8 GB (1 thanh 8 GB), DDR4,
-                                3200 MHz
-                            </li>
-                            <li>
-                                <span>CPU:</span>
-                            </li>
-                        </ul>
+                        <div className={cx("description")}>
+                            <p> Mô tả sản phẩm</p>
+                            <span>{product.description}</span>
+                        </div>
                     </div>
                 </div>
             </div>
