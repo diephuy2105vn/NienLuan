@@ -32,7 +32,7 @@ function CreateProduct() {
                     "Content-Type": "multipart/form-data",
                 },
             })
-            .then((res) => console.log(res.data))
+            .then((res) => navigate("/admin/product"))
             .catch((err) => console.log(err));
     }
 

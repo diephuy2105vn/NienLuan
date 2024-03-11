@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import { auth, providerGoogle } from "../../config/firebase";
 import { signInWithPopup } from "firebase/auth";
 import instance from "../../axios";

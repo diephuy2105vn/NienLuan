@@ -2,7 +2,6 @@
 @import "~bootstrap/scss/bootstrap";
 @import "normalize.css";
 :root {
-    --success: #0888ca;
     --black: #000;
     --white: #fff;
     --df-layout-header-h: 80px;
@@ -86,20 +85,26 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 //Điều chỉnh boostrap
+.carousel {
+    .carousel-indicators {
+        display: flex;
+        align-items: center;
+        button {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: #f8a6be !important;
+        }
+        button.active {
+            width: 20px;
+            height: 20px;
+        }
+    }
+}
 
 .carousel-control-prev,
 .carousel-control-next {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background-color: #ccc;
-    margin: auto 12px;
-    opacity: 0.2;
-    transition: all 0.3s linear;
-
-    &:hover {
-        opacity: 0.5;
-    }
+    display: none;
 }
 
 @media (max-width: 768px) {
@@ -111,12 +116,6 @@ input[type="number"]::-webkit-outer-spin-button {
 @media (max-width: 576px) {
     :root {
         --df-padding-x: 8px;
-    }
-    .carousel-control-prev,
-    .carousel-control-next {
-        width: 28px;
-        height: 28px;
-        padding: 8px;
     }
 }
 

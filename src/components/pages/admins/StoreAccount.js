@@ -12,7 +12,7 @@ const cx = classNames.bind(styles);
 function StoreAccount() {
     const itemsRef = useRef([]);
     const [currentPage, setCurrentPage] = useState(1);
-    // const [totalPage, setTotalPage] = useState(0);
+    const [totalPage, setTotalPage] = useState(0);
     const [account, setAccount] = useState([]);
 
     const [checkedAccount, setCheckedAccount] = useState([]);
@@ -53,9 +53,9 @@ function StoreAccount() {
                         <tr>
                             <th className="col-1"></th>
                             <th className="col-1 text-center">STT</th>
-                            <th className="col-6 text-center">Tên tài khoản</th>
+                            <th className="col-4 text-center">Tên tài khoản</th>
                             <th className="col-2 text-center">Phương thức</th>
-                            <th className="col-2 text-center">Quyền</th>
+                            <th className="col-2 text-center">Chức vụ</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -108,7 +108,7 @@ function StoreAccount() {
                     </tbody>
                 </table>
                 <div className={cx("action")}>
-                    <Button primary small to="/admin/account/create">
+                    <Button primary small to="/register">
                         Thêm tài khoản
                     </Button>
 
@@ -120,11 +120,11 @@ function StoreAccount() {
                         Xóa tài khoản
                     </Button>
                 </div>
-                {/* <Pagination
+                <Pagination
                     totalPage={totalPage}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
-                /> */}
+                />
             </div>
             {openModalDelete && (
                 <div className={cx("modal-wrapper")}>

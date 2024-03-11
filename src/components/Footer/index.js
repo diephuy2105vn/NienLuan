@@ -36,44 +36,7 @@ function Footer() {
                         />
                     </div>
                 </div>
-                <div className={"d-md-flex d-none " + cx("f-col")}>
-                    <div className={cx("fc-wrapper")}>
-                        <h3>Giới thiệu</h3>
-                        <ul>
-                            <li>
-                                <Link to="#">Giới thiệu về công ty</Link>
-                            </li>
-                            <li>
-                                <Link to="#">Chính sách bảo hành</Link>
-                            </li>
-                            <li>
-                                <Link to="#">Chính sách đổi trả</Link>
-                            </li>
-                            <li>
-                                <Link to="#">Chính sách bảo mật</Link>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div className={"d-md-flex d-none " + cx("f-col")}>
-                    <div className={cx("fc-wrapper")}>
-                        <h3>Giới thiệu</h3>
-                        <ul>
-                            <li>
-                                <Link to="#">Giới thiệu về công ty</Link>
-                            </li>
-                            <li>
-                                <Link to="#">Chính sách bảo hành</Link>
-                            </li>
-                            <li>
-                                <Link to="#">Chính sách đổi trả</Link>
-                            </li>
-                            <li>
-                                <Link to="#">Chính sách bảo mật</Link>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+
                 <div className={cx("f-col")}>
                     <div className={cx("fc-wrapper")}>
                         <h3>Tổng đài hỗ trợ</h3>

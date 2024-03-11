@@ -43,7 +43,7 @@ function UpdateProduct() {
                     "Content-Type": "multipart/form-data",
                 },
             })
-            .then((res) => console.log(res.data))
+            .then((res) => navigate("/admin/product"))
             .catch((err) => console.log(err));
     };
 
@@ -259,7 +259,7 @@ function UpdateProduct() {
             </div>
             {openModalDelete && (
                 <div className={cx("modal-wrapper")}>
-                    <div className={cx("modal-delete")}>
+                    <div className={cx("modal-content")}>
                         <h3 className={cx("title")}>Xác nhận xóa sản phẩm</h3>
                         <div className={cx("content")}>
                             <span>

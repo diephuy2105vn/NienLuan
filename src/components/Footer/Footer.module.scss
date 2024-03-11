@@ -21,6 +21,10 @@
 }
 
 .f-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 25%;
     .fc-wrapper {
         margin: 8px 0;
     }

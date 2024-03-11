@@ -89,7 +89,7 @@ function Payment() {
             <div className="page">
                 <div className="row m-0">
                     <Title className="col-lg-6 offset-lg-3 col-md-8 offset-md-2 p-0">
-                        Thanh toán
+                        Đặt hàng
                     </Title>
                     <div className="col-lg-6 offset-lg-3 col-md-8 offset-md-2 bg-light rounded-2 p-3">
                         <div className={cx("cart")}>

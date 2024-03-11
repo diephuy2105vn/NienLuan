@@ -10,7 +10,7 @@ import { useRef, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Button from "../Button";
-import { deleteDetail, changeQuantity } from "../../reduxs/cart";
+import { deleteDetail, changeQuantity, getCart } from "../../reduxs/cart";
 import useChangeDelay from "../../hooks/useChangeDelay";
 import { useNavigate } from "react-router-dom";
 
@@ -47,6 +47,7 @@ export function CardInCart({ userId, item, checked, setChecked }) {
         }
     }, [quantitySend]);
     useEffect(() => {
+        dispatch(getCart(userId));
         return () => setChecked([]);
     }, []);
 

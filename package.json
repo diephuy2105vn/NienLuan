@@ -1,7 +1,7 @@
 {
     "main": "public/electron.js",
     "homepage": "./",
-    "name": "electron_and_react",
+    "name": "Tech Wolf",
     "version": "0.1.0",
     "private": true,
     "dependencies": {

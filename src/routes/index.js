@@ -15,6 +15,7 @@ import StoreOrder from "../components/pages/admins/StoreOrder";
 import OrderOneAdmin from "../components/pages/admins/OrderOneAdmin";
 import OrderOne from "../components/pages/OrderOne";
 import StoreAccount from "../components/pages/admins/StoreAccount";
+
 export const publicRoutes = [
     {
         path: "/",

@@ -2,10 +2,11 @@ import Input from "../Input";
 import classNames from "classnames/bind";
 import styles from "./LoginRegister.module.scss";
 import Button from "../Button";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
 import instance from "../../axios";
-import { useNavigate } from "react-router-dom";
+import AuthUserContext from "../../contexts/AuthUserContext";
+
 const cx = classNames.bind(styles);
 
 function Register() {
@@ -14,12 +15,20 @@ function Register() {
         username: "",
         password: "",
         passwordConfirm: "",
+        role: "1",
     });
     const [error, setError] = useState({
         username: "",
         password: "",
         passwordConfirm: "",
     });
+    const { user, setUser, loginWithAccount, loginWithGoogle } =
+        useContext(AuthUserContext);
+
+    useEffect(() => {
+        if (user?.role <= 2) navigate("/");
+    }, [user]);
+
     const handleSubmitForm = (e) => {
         e.preventDefault();
         if (
@@ -57,6 +66,10 @@ function Register() {
                         password: "",
                         passwordConfirm: "",
                     });
+                    if (user?.role >= 3) {
+                        navigate("/admin/account");
+                        return;
+                    }
                     navigate("/login");
                     return;
                 }
@@ -123,7 +136,7 @@ function Register() {
                 </div>
                 <div
                     className={cx("form-row", {
-                        block: true,
+                        block: !user,
                     })}>
                     <Input
                         placeholder="Xác nhận mật khẩu"
@@ -150,17 +163,37 @@ function Register() {
                         }}
                     />
                 </div>
+                {user && (
+                    <div className={cx("form-row", { block: true })}>
+                        <select
+                            value={account.role}
+                            className={cx("form-select")}
+                            onChange={(e) =>
+                                setAccount((pre) => ({
+                                    ...pre,
+                                    role: e.target.value,
+                                }))
+                            }>
+                            <option value="1">Khách hàng</option>
+                            <option value="2">Nhân viên</option>
+                            <option value="3">Quản trị viên</option>
+                        </select>
+                    </div>
+                )}
                 <div className={cx("form-row")}>
                     <Button secondary large className={cx("form-button")}>
                         Đăng ký
                     </Button>
                 </div>
 
-                <div className={cx("form-footer")}>
-                    <span className={cx("form-link")}>
-                        Bạn đã có tài khoản? <Link to="/login">Đăng nhập</Link>
-                    </span>
-                </div>
+                {!user && (
+                    <div className={cx("form-footer")}>
+                        <span className={cx("form-link")}>
+                            Bạn đã có tài khoản?{" "}
+                            <Link to="/login">Đăng nhập</Link>
+                        </span>
+                    </div>
+                )}
             </form>
         </div>
     );

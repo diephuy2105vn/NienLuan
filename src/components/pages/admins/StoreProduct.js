@@ -158,6 +158,7 @@ function StoreProduct() {
                                 small
                                 onClick={() => {
                                     handleDeleteProduct();
+                                    setOpenModalDelete(false);
                                 }}>
                                 Xác nhận
                             </Button>

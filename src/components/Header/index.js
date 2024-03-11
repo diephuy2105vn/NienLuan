@@ -18,12 +18,13 @@ function Header() {
     const [openCart, setOpenCart] = useState(false);
     const { user, setUser, logout } = useContext(AuthUserContext);
 
-    const [cookies, setCookies, removeCookies] = useCookies();
+    const [_cookies, _setCookies, removeCookies] = useCookies();
     const handleLogout = () => {
         logout()
             .then((res) => {
                 setUser();
                 removeCookies("accessToken");
+                window.location.href = "/";
             })
             .catch((err) => {
                 console.log(err);
@@ -175,7 +176,7 @@ function Header() {
                                             Giỏ hàng
                                         </Button>
                                     </li>
-                                    {user.role > 2 && (
+                                    {user.role >= 2 && (
                                         <>
                                             <li>
                                                 <Button
@@ -191,14 +192,16 @@ function Header() {
                                                     Quản lý đơn hàng
                                                 </Button>
                                             </li>
-                                            <li>
-                                                <Button
-                                                    className={cx("link")}
-                                                    to="/admin/account">
-                                                    Quản lý tài khoản
-                                                </Button>
-                                            </li>
                                         </>
+                                    )}
+                                    {user.role >= 3 && (
+                                        <li>
+                                            <Button
+                                                className={cx("link")}
+                                                to="/admin/account">
+                                                Quản lý tài khoản
+                                            </Button>
+                                        </li>
                                     )}
                                     <li>
                                         <Button

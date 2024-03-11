@@ -2,11 +2,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { publicRoutes, privateRoutes, adminRoutes } from "./routes/index";
 import DefaultLayout from "./components/layouts/DefaultLayout";
 import AuthUserContext from "./contexts/AuthUserContext";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useCookies } from "react-cookie";
-import { useContext, useLayoutEffect, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getCart } from "./reduxs/cart";
-import { useNavigate, useLocation } from "react-router-dom";
 import instance from "./axios";
 function App() {
     const [routes, setRoutes] = useState(publicRoutes);
@@ -29,7 +28,7 @@ function App() {
 
     useEffect(() => {
         if (user) {
-            user.role == 1 ? setRoutes(privateRoutes) : setRoutes(adminRoutes);
+            user.role === 1 ? setRoutes(privateRoutes) : setRoutes(adminRoutes);
             dispatch(getCart(user._id));
         } else {
             setRoutes(publicRoutes);
